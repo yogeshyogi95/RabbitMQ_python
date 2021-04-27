@@ -7,10 +7,8 @@ One of the advantages of using a Task Queue is the ability to easily parallelise
 
 First, let's try to run two worker.py scripts at the same time. They will both get messages from the queue, but how exactly? Let's see.
 
-shell 1
 python worker.py
 
-shell 2
 python worker.py
 
 You need three consoles open. Two will run the worker.py script. These consoles will be our two consumers - C1 and C2
