@@ -1,15 +1,9 @@
-# Publish-Subscribe in RabbitMQ
-we'll deliver a message to multiple consumers. This pattern is known as "publish/subscribe".
-To illustrate the pattern, we're going to build a simple logging system. It will consist of two programs -- the first will emit log messages and the second will receive and print them.
-In our logging system every running copy of the receiver program will get the messages.
-Essentially, published log messages are going to be broadcast to all the receivers.
-The most important change is that we now want to publish messages to our logs exchange instead of the nameless one. We need to supply a routing_key when sending, but its value is ignored for fanout exchanges.
+# Routing in RabbitMQ
+we're going to make it possible to subscribe only to a subset of the messages. For example, we will be able to direct only critical error messages to the log file (to save disk space), while still being able to print all of the log messages on the console.
+A binding is a relationship between an exchange and a queue. This can be simply read as: the queue is interested in messages from this exchange.
+We will use a direct exchange instead. The routing algorithm behind a direct exchange is simple - a message goes to the queues whose binding key exactly matches the routing key of the message.
+It is perfectly legal to bind multiple queues with the same binding key. 
 
-We're done. If you want to save logs to a file, just open a console and type:
-python receive_logs.py > logs_from_rabbit.log
+python receive_logs_direct.py info warning error
 
-If you wish to see the logs on your screen, spawn a new terminal and run:
-python receive_logs.py
-
-And of course, to emit logs type:
-python emit_log.py
+python emit_log_direct.py error "Run. Run. Or it will explode."
